@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="th" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical English Phrases & Idioms Virtual Simulator</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Kanit', 'Inter', sans-serif;
+        }
+        .font-inter {
+            font-family: 'Inter', sans-serif;
+        }
+    </style>
+</head>
+<body class="h-full text-slate-800 flex flex-col min-h-screen">
+
+    <!-- Header Navigation -->
+    <header class="bg-gradient-to-r from-teal-700 via-cyan-700 to-blue-800 text-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex justify-between items-center">
+            <div class="flex items-center space-x-3">
+                <div class="p-2 bg-white/10 rounded-xl backdrop-blur-sm border border-white/20">
+                    <i data-lucide="activity" class="w-6 h-6 text-cyan-300"></i>
+                </div>
+                <div>
+                    <h1 class="text-lg sm:text-xl font-bold leading-tight">Medical English Communication Simulator</h1>
+                    <p class="text-xs text-cyan-100 font-light">ห้องทดลองเสมือนจริง: วลี สำนวน และ Collocations ทางการแพทย์ (คณะสหเวชศาสตร์)</p>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center space-x-2 bg-white/10 px-3 py-1.5 rounded-full text-xs font-medium border border-white/20">
+                <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                <span>Interactive Learning Engine v2.5</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+        <!-- LEFT PANEL: Control Sliders & Variable Inputs (4 cols) -->
+        <section class="lg:col-span-4 space-y-5 flex flex-col">
+            
+            <!-- Control Panel Card -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 flex-1 flex flex-col justify-between">
+                <div>
+                    <div class="flex items-center justify-between pb-3 mb-4 border-b border-slate-100">
+                        <div class="flex items-center space-x-2">
+                            <i data-lucide="sliders" class="w-5 h-5 text-teal-600"></i>
+                            <h2 class="font-semibold text-slate-800">แผงควบคุมตัวแปรภาษา (Control Panel)</h2>
+                        </div>
+                        <button id="reset-btn" class="text-xs text-slate-500 hover:text-teal-600 flex items-center space-x-1 transition-colors">
+                            <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                            <span>รีเซ็ต</span>
+                        </button>
+                    </div>
+
+                    <p class="text-xs text-slate-500 mb-5 leading-relaxed">
+                        ปรับค่าตัวแปรการสื่อสาร 3 มิติเพื่อดูการเปลี่ยนแปลงของระดับทางการ, ความมั่นใจ และบริบทความฉุกเฉินทางสุขภาพแบบ Real-time
+                    </p>
+
+                    <!-- Slider 1: Professional Register -->
+                    <div class="space-y-2 mb-6">
+                        <div class="flex justify-between items-center text-sm font-medium">
+                            <label for="slider-register" class="flex items-center space-x-1.5 text-slate-700">
+                                <i data-lucide="briefcase" class="w-4 h-4 text-indigo-500"></i>
+                                <span>1. Professional Register (ทางการ)</span>
+                            </label>
+                            <span id="val-register" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200">50%</span>
+                        </div>
+                        <input type="range" id="slider-register" min="0" max="100" value="50" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-indigo-600">
+                        <div class="flex justify-between text-[11px] text-slate-400 font-light px-0.5">
+                            <span>Casual/Idioms (ภาษาพูด)</span>
+                            <span>Formal Clinical (ภาษาการแพทย์)</span>
+                        </div>
+                    </div>
+
+                    <!-- Slider 2: Confidence & Empathy -->
+                    <div class="space-y-2 mb-6">
+                        <div class="flex justify-between items-center text-sm font-medium">
+                            <label for="slider-confidence" class="flex items-center space-x-1.5 text-slate-700">
+                                <i data-lucide="heart-handshake" class="w-4 h-4 text-emerald-500"></i>
+                                <span>2. Confidence & Empathy (ความมั่นใจ/เห็นอกเห็นใจ)</span>
+                            </label>
+                            <span id="val-confidence" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">50%</span>
+                        </div>
+                        <input type="range" id="slider-confidence" min="0" max="100" value="50" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-emerald-600">
+                        <div class="flex justify-between text-[11px] text-slate-400 font-light px-0.5">
+                            <span>Hesitant/Passive (ลังเล)</span>
+                            <span>Assertive & Caring (มั่นใจและปลอบประโลม)</span>
+                        </div>
+                    </div>
+
+                    <!-- Slider 3: Context Urgency -->
+                    <div class="space-y-2 mb-6">
+                        <div class="flex justify-between items-center text-sm font-medium">
+                            <label for="slider-urgency" class="flex items-center space-x-1.5 text-slate-700">
+                                <i data-lucide="siren" class="w-4 h-4 text-rose-500"></i>
+                                <span>3. Triage / Context Urgency (ความฉุกเฉิน)</span>
+                            </label>
+                            <span id="val-urgency" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">30%</span>
+                        </div>
+                        <input type="range" id="slider-urgency" min="0" max="100" value="30" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-rose-600">
+                        <div class="flex justify-between text-[11px] text-slate-400 font-light px-0.5">
+                            <span>Routine Check (ตรวจทั่วไป)</span>
+                            <span>Acute Crisis (วิกฤต/ฉุกเฉิน)</span>
+                        </div>
+                    </div>
+
+                    <!-- Department Specialty Selector -->
+                    <div class="pt-3 border-t border-slate-100">
+                        <label class="block text-xs font-medium text-slate-600 mb-2 flex items-center space-x-1">
+                            <i data-lucide="building-2" class="w-3.5 h-3.5 text-slate-500"></i>
+                            <span>เลือกสาขาวิชาสหเวชศาสตร์ (Specialty Track):</span>
+                        </label>
+                        <div class="grid grid-cols-3 gap-2">
+                            <button data-dept="MT" class="dept-btn active-dept py-2 px-1 text-xs font-medium rounded-xl border transition-all text-center flex flex-col items-center justify-center space-y-1 bg-teal-50 border-teal-500 text-teal-800 shadow-sm">
+                                <i data-lucide="test-tube-2" class="w-4 h-4"></i>
+                                <span>เทคนิคการแพทย์</span>
+                            </button>
+                            <button data-dept="PT" class="dept-btn py-2 px-1 text-xs font-medium rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all text-center flex flex-col items-center justify-center space-y-1">
+                                <i data-lucide="activity" class="w-4 h-4"></i>
+                                <span>กายภาพบำบัด</span>
+                            </button>
+                            <button data-dept="CP" class="dept-btn py-2 px-1 text-xs font-medium rounded-xl border border-slate-200 text-slate-600 hover:bg-slate-50 transition-all text-center flex flex-col items-center justify-center space-y-1">
+                                <i data-lucide="brain-circuit" class="w-4 h-4"></i>
+                                <span>จิตวิทยาคลินิก</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Challenge Mission Button -->
+                <div class="pt-5 mt-4 border-t border-slate-100">
+                    <button id="mission-trigger-btn" class="w-full py-3 px-4 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-600 hover:to-orange-700 text-white font-semibold rounded-xl shadow-md hover:shadow-lg transition-all flex items-center justify-center space-x-2 text-sm group">
+                        <i data-lucide="trophy" class="w-4 h-4 text-amber-200 group-hover:scale-110 transition-transform"></i>
+                        <span>เริ่มโจทย์ท้าทาย (Challenge Mission)</span>
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- RIGHT PANEL: Visual Dashboard, Communication Dialogue & Scoring (8 cols) -->
+        <section class="lg:col-span-8 space-y-5 flex flex-col">
+
+            <!-- Top Visual Monitor Section (Canvas Radar & Interactive Avatar Simulation) -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+                
+                <!-- Left Visual Radar Canvas (5 cols) -->
+                <div class="md:col-span-5 flex flex-col items-center justify-center bg-slate-900 rounded-xl p-3 border border-slate-800 relative overflow-hidden">
+                    <div class="absolute top-2 left-3 flex items-center space-x-1.5 text-[10px] text-cyan-400 font-mono tracking-wider uppercase">
+                        <span class="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-ping"></span>
+                        <span>Rapport & Effectiveness Matrix</span>
+                    </div>
+                    <canvas id="radarCanvas" width="220" height="220" class="max-w-full h-auto cursor-crosshair my-2"></canvas>
+                    <div class="w-full flex justify-around text-[10px] text-slate-400 border-t border-slate-800/80 pt-2 font-mono">
+                        <div>REGISTER: <span id="radar-reg-val" class="text-indigo-400 font-semibold">50</span></div>
+                        <div>CONFIDENCE: <span id="radar-conf-val" class="text-emerald-400 font-semibold">50</span></div>
+                        <div>URGENCY: <span id="radar-urg-val" class="text-rose-400 font-semibold">30</span></div>
+                    </div>
+                </div>
+
+                <!-- Right Visual Patient Simulation & Interactive Dialogue (7 cols) -->
+                <div class="md:col-span-7 flex flex-col justify-between h-full space-y-3">
+                    
+                    <!-- Patient Status Header & Avatar Reaction -->
+                    <div class="flex items-center justify-between bg-slate-50 p-3 rounded-xl border border-slate-200/80">
+                        <div class="flex items-center space-x-3">
+                            <div id="patient-avatar-box" class="w-12 h-12 rounded-full bg-teal-100 border-2 border-teal-500 flex items-center justify-center text-teal-700 shadow-sm transition-all">
+                                <i id="patient-icon" data-lucide="user" class="w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <div class="flex items-center space-x-2">
+                                    <h3 id="patient-name" class="text-sm font-bold text-slate-800">ผู้ป่วยจำลอง (Simulated Patient)</h3>
+                                    <span id="patient-state-tag" class="px-2 py-0.5 text-[10px] font-medium rounded-full bg-amber-100 text-amber-800">Anxious</span>
+                                </div>
+                                <p id="patient-feeling-desc" class="text-xs text-slate-500 mt-0.5">"กำลังรอฟังสรุปผลอย่างกังวลใจ..."</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Dynamic Dialogue Bubble (Professional & Patient Exchange) -->
+                    <div class="space-y-2 bg-gradient-to-br from-slate-900 to-indigo-950 p-4 rounded-xl text-white shadow-inner border border-slate-800 flex-1 flex flex-col justify-center">
+                        <div class="text-[10px] uppercase font-mono text-teal-400 tracking-wider mb-1 flex items-center justify-between">
+                            <span class="flex items-center"><i data-lucide="message-square" class="w-3 h-3 mr-1"></i> Live Phrase Output</span>
+                            <span id="dept-tag-badge" class="bg-teal-500/20 text-teal-300 border border-teal-500/30 px-2 py-0.5 rounded text-[9px]">MT Track</span>
+                        </div>
+                        
+                        <!-- Primary Speech / Phrase Output -->
+                        <div id="dialogue-output" class="font-inter text-sm sm:text-base font-semibold text-cyan-200 leading-snug">
+                            "Let me run a few tests to be on the safe side."
+                        </div>
+
+                        <!-- Phonetic / Context Helper -->
+                        <div id="dialogue-translation" class="text-xs text-slate-300 font-light pt-1 border-t border-slate-800/80 mt-1">
+                            "ขออนุญาตเจาะเลือดตรวจเพิ่มเติมเพื่อความแน่ใจนะครับ"
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Scoring Engine & Formula Explanation Box -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 space-y-4">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-slate-100">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="calculator" class="w-5 h-5 text-indigo-600"></i>
+                        <h3 class="font-semibold text-slate-800">สูตรคำนวณและประเมินผลประสิทธิภาพ (Communication Engine)</h3>
+                    </div>
+                    <div class="flex items-center space-x-3 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200">
+                        <span class="text-xs text-slate-500 font-medium">คะแนนรวม (Score):</span>
+                        <span id="score-display" class="text-lg font-extrabold text-indigo-600 font-mono">78.5 / 100</span>
+                    </div>
+                </div>
+
+                <!-- Formula Breakdown Display -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-xs">
+                    <div class="bg-indigo-50/50 border border-indigo-100 rounded-xl p-3">
+                        <div class="font-medium text-indigo-900 flex justify-between">
+                            <span>Register Balance (W1)</span>
+                            <span id="score-w1-val" class="font-mono font-bold">40%</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 mt-1">ความเหมาะสมของระดับทางการกับสถานการณ์</p>
+                    </div>
+                    <div class="bg-emerald-50/50 border border-emerald-100 rounded-xl p-3">
+                        <div class="font-medium text-emerald-900 flex justify-between">
+                            <span>Empathy & Clarity (W2)</span>
+                            <span id="score-w2-val" class="font-mono font-bold">35%</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 mt-1">ความมั่นใจ น้ำเสียง และความเข้าอกเข้าใจผู้ป่วย</p>
+                    </div>
+                    <div class="bg-rose-50/50 border border-rose-100 rounded-xl p-3">
+                        <div class="font-medium text-rose-900 flex justify-between">
+                            <span>Triage Precision (W3)</span>
+                            <span id="score-w3-val" class="font-mono font-bold">25%</span>
+                        </div>
+                        <p class="text-[11px] text-slate-500 mt-1">ความรวดเร็วและกระชับในสภาวะฉุกเฉิน</p>
+                    </div>
+                </div>
+
+                <!-- Language Analysis & Academic Context Box (Thai Explanation) -->
+                <div class="bg-slate-50 rounded-xl p-4 border border-slate-200/80 space-y-2">
+                    <div class="flex items-center space-x-2 text-xs font-bold text-slate-700 uppercase tracking-wider">
+                        <i data-lucide="book-open-text" class="w-4 h-4 text-teal-600"></i>
+                        <span>วิเคราะห์หลักการใช้ภาษาและ Collocations ทางสุขภาพ:</span>
+                    </div>
+                    <p id="formula-explanation-text" class="text-xs sm:text-sm text-slate-600 leading-relaxed font-light">
+                        เมื่อระดับความทางการอยู่ในระดับปานกลาง (50%) ร่วมกับความฉุกเฉินต่ำ วลีประเภท <span class="font-semibold text-teal-700">"to be on the safe side"</span> (สำนวน: เพื่อความปลอดภัยไว้ก่อน) จะถูกนำมาใช้ร่วมกับ Collocation <span class="font-semibold text-teal-700">"run a test"</span> (ทำการตรวจแล็บ) เพื่อสร้างความอุ่นใจให้นิสิตและผู้ป่วยโดยไม่ทำให้เกิดความตระหนก
+                    </p>
+                </div>
+            </div>
+
+            <!-- Language Vault (Key Vocabulary & Idioms Reference Table) -->
+            <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200/80 space-y-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-2">
+                        <i data-lucide="bookmark" class="w-5 h-5 text-teal-600"></i>
+                        <h3 class="font-semibold text-slate-800">คลังคำศัพท์ประจำสถานการณ์ปัจจุบัน (Active Medical Phrases)</h3>
+                    </div>
+                    <span id="active-category-badge" class="text-[11px] bg-teal-100 text-teal-800 px-2.5 py-0.5 rounded-full font-medium">Standard Patient Interaction</span>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-3 pt-1">
+                    
+                    <!-- Idiom Card -->
+                    <div class="p-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:shadow-md transition-all">
+                        <span class="text-[10px] font-bold tracking-wider text-amber-600 uppercase block mb-1">Medical Idiom (สำนวน)</span>
+                        <h4 id="active-idiom-title" class="font-inter font-bold text-sm text-slate-800">"Under the weather"</h4>
+                        <p id="active-idiom-desc" class="text-xs text-slate-500 mt-1">รู้สึกไม่สบาย / ป่วยเล็กน้อย</p>
+                    </div>
+
+                    <!-- Collocation Card -->
+                    <div class="p-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:shadow-md transition-all">
+                        <span class="text-[10px] font-bold tracking-wider text-indigo-600 uppercase block mb-1">Health Collocation (คำปรากฏร่วม)</span>
+                        <h4 id="active-collocation-title" class="font-inter font-bold text-sm text-slate-800">"Alleviate symptoms"</h4>
+                        <p id="active-collocation-desc" class="text-xs text-slate-500 mt-1">บรรเทาอาการป่วย</p>
+                    </div>
+
+                    <!-- Clinical Phrase Card -->
+                    <div class="p-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-white hover:shadow-md transition-all">
+                        <span class="text-[10px] font-bold tracking-wider text-emerald-600 uppercase block mb-1">Communicative Phrase (ประโยคสื่อสาร)</span>
+                        <h4 id="active-phrase-title" class="font-inter font-bold text-sm text-slate-800">"Follow up on results"</h4>
+                        <p id="active-phrase-desc" class="text-xs text-slate-500 mt-1">ติดตามผลการตรวจทางคลินิก</p>
+                    </div>
+
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-200 mt-auto py-4">
+        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-400">
+            Interactive Innovation Case Study: English for Health Sciences — Designed for Allied Health Science Students (MT, PT, CP)
+        </div>
+    </footer>
+
+    <!-- CHALLENGE MISSION MODAL -->
+    <div id="mission-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden transition-opacity">
+        <div class="bg-white rounded-3xl max-w-lg w-full p-6 shadow-2xl border border-slate-100 transform transition-all space-y-5">
+            
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div class="flex items-center space-x-2.5">
+                    <div class="p-2 bg-amber-100 text-amber-700 rounded-xl">
+                        <i data-lucide="target" class="w-6 h-6"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-slate-800 text-base">โจทย์ท้าทาย (Challenge Mission)</h3>
+                        <p class="text-xs text-slate-400">สุ่มสถานการณ์คลินิกจริงเพื่อทดสอบทักษะ</p>
+                    </div>
+                </div>
+                <button id="close-modal-btn" class="p-1.5 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+
+            <!-- Mission Details Card -->
+            <div class="bg-gradient-to-br from-amber-50 to-orange-50 border border-amber-200/80 rounded-2xl p-4 space-y-3">
+                <div class="flex items-center justify-between">
+                    <span id="mission-dept-badge" class="text-[10px] font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-200 text-amber-900">Physical Therapy</span>
+                    <span class="text-xs font-semibold text-amber-700 flex items-center"><i data-lucide="clock" class="w-3.5 h-3.5 mr-1"></i> Target Objective</span>
+                </div>
+                
+                <h4 id="mission-title" class="font-bold text-amber-950 text-base">"ผู้ป่วยสูงอายุมีอาการปวดหลังเรื้อรังและกังวลใจ"</h4>
+                <p id="mission-scenario" class="text-xs text-amber-900 leading-relaxed font-light">
+                    นักศึกษาต้องปรับแถบเลื่อนตัวแปรการสื่อสารให้เหมาะสมเพื่อเลือกใช้ประโยคปลอบประโลมและคำศัพท์ทางการที่ไม่ก่อให้เกิดความวิตกกังวล
+                </p>
+
+                <!-- Target Criteria Indicators -->
+                <div class="bg-white/80 rounded-xl p-3 border border-amber-200 space-y-1.5 text-xs">
+                    <div class="font-semibold text-slate-700 mb-1">เงื่อนไขเป้าหมายที่ต้องปรับให้บรรลุ:</div>
+                    <div class="flex justify-between text-slate-600">
+                        <span>• Register (ระดับทางการ):</span>
+                        <span id="target-reg-text" class="font-bold text-indigo-700">30 - 50%</span>
+                    </div>
+                    <div class="flex justify-between text-slate-600">
+                        <span>• Confidence & Empathy:</span>
+                        <span id="target-conf-text" class="font-bold text-emerald-700">&ge; 75%</span>
+                    </div>
+                    <div class="flex justify-between text-slate-600">
+                        <span>• Triage / Urgency:</span>
+                        <span id="target-urg-text" class="font-bold text-rose-700">&le; 40%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex space-x-3 pt-2">
+                <button id="randomize-mission-btn" class="flex-1 py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 font-medium rounded-xl text-xs transition-colors flex items-center justify-center space-x-1.5">
+                    <i data-lucide="shuffle" class="w-4 h-4"></i>
+                    <span>สุ่มโจทย์ใหม่</span>
+                </button>
+                <button id="check-mission-btn" class="flex-1 py-2.5 px-4 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-xl text-xs shadow-md transition-colors flex items-center justify-center space-x-1.5">
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i>
+                    <span>ส่งคำตอบ / ตรวจสอบ</span>
+                </button>
+            </div>
+
+            <!-- Evaluation Result Banner (Hidden by default) -->
+            <div id="mission-result-banner" class="hidden p-3 rounded-xl text-xs font-medium border flex items-start space-x-2">
+                <i id="result-icon" data-lucide="info" class="w-4 h-4 mt-0.5 shrink-0"></i>
+                <div id="result-text">กำลังตรวจสอบเงื่อนไข...</div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT ENGINE -->
+    <script>
+        // ==========================================
+        // DATA KNOWLEDGE BASE (Phrases, Idioms, Collocations)
+        // ==========================================
+        const database = {
+            MT: [ // Medical Technology
+                {
+                    minReg: 0, maxReg: 45, minUrg: 0, maxUrg: 50,
+                    phrase: "I'll draw a quick blood sample; you'll just feel a tiny pinch.",
+                    translation: "ขออนุญาตเจาะเลือดสั้นๆ นะครับ จะรู้สึกเหมือนมดกัดนิดเดียวครับ",
+                    idiom: "A tiny pinch", idiomDesc: "ความรู้สึกเจ็บเพียงเล็กน้อยเหมือนมดกัด",
+                    collocation: "Draw a blood sample", collocDesc: "เก็บตัวอย่างเลือด",
+                    patientState: "Slightly Anxious", patientIcon: "frown",
+                    explanation: "การใช้ภาษาพูดที่เป็นกันเอง (Low Register) และเน้นความเห็นอกเห็นใจช่วยลดความกลัวเข็มของผู้ป่วยในกระบวนการเจาะเลือดตรวจวิเคราะห์"
+                },
+                {
+                    minReg: 46, maxReg: 75, minUrg: 0, maxUrg: 60,
+                    phrase: "We need to run a complete blood count to rule out any infection.",
+                    translation: "เราจำเป็นต้องทำการตรวจความสมบูรณ์ของเม็ดเลือดเพื่อตัดประเด็นการติดเชื้อออกครับ",
+                    idiom: "To rule out", idiomDesc: "วินิจฉัยตัดสาเหตุที่ไม่ใช่ ออกไป",
+                    collocation: "Run a test / Complete blood count", collocDesc: "ทำการตรวจแล็บ / ตรวจสมบูรณ์ของเม็ดเลือด",
+                    patientState: "Calm & Cooperative", patientIcon: "smile",
+                    explanation: "ระดับทางการระดับปานกลางเหมาะสำหรับการอธิบายขั้นตอนทางห้องปฏิบัติการทางเทคนิคการแพทย์ด้วยความชัดเจนและสร้างความเชื่อมั่น"
+                },
+                {
+                    minReg: 76, maxReg: 100, minUrg: 61, maxUrg: 100,
+                    phrase: "Immediate blood cross-matching is required due to critical hemoglobin levels.",
+                    translation: "จำเป็นต้องทำการตรวจจดจำหมู่เลือดโดยด่วนเนื่องจากระดับฮีโมโกลบินอยู่ในขั้นวิกฤต",
+                    idiom: "Time is of the essence", idiomDesc: "เวลาเป็นสิ่งสำคัญและวิกฤตอย่างยิ่ง",
+                    collocation: "Critical levels / Cross-matching", collocDesc: "ระดับวิกฤต / การทดสอบความเข้ากันได้ของเลือด",
+                    patientState: "Critical Alert", patientIcon: "alert-circle",
+                    explanation: "ในภาวะฉุกเฉินระดับสูง ต้องใช้ศัพท์ทางการแพทย์สากลเฉพาะทาง (High Clinical Register) เพื่อรายงานผลต่อทีมแพทย์อย่างแม่นยำและรวดเร็ว"
+                }
+            ],
+            PT: [ // Physical Therapy
+                {
+                    minReg: 0, maxReg: 45, minUrg: 0, maxUrg: 50,
+                    phrase: "Take it easy during this stretch; don't push yourself past the pain barrier.",
+                    translation: "ค่อยๆ ยืดกล้ามเนื้อนะครับ อย่าฝืนยืดจนเจ็บเกินไป",
+                    idiom: "Take it easy", idiomDesc: "ทำอย่างช้าๆ ค่อยเป็นค่อยไป ไม่รีบร้อน",
+                    collocation: "Pain barrier / Range of motion", collocDesc: "ขีดจำกัดความเจ็บปวด / องศาการเคลื่อนไหว",
+                    patientState: "Relaxed", patientIcon: "smile",
+                    explanation: "การฝึกกายภาพบำบัดฟื้นฟู ต้องใช้สำนวนสื่อสารที่ให้ผู้ป่วยรู้สึกผ่อนคลายและเข้าใจขอบเขตการยืดเหยียดร่างกายตนเอง"
+                },
+                {
+                    minReg: 46, maxReg: 75, minUrg: 0, maxUrg: 60,
+                    phrase: "We will perform joint mobilization to restore your mobility step by step.",
+                    translation: "เราจะทำการดัดดึงข้อต่อเพื่อฟื้นฟูการเคลื่อนไหวของคุณตามลำดับขั้นตอนครับ",
+                    idiom: "Step by step", idiomDesc: "ค่อยๆ ทำไปทีละขั้นตอนอย่างเป็นระบบ",
+                    collocation: "Restore mobility / Joint mobilization", collocDesc: "ฟื้นฟูการเคลื่อนไหว / การดัดดึงข้อต่อ",
+                    patientState: "Reassured", patientIcon: "user-check",
+                    explanation: "การระบุคำศัพท์ทางการแพทย์ระดับกลางควบคู่กับการอธิบายขั้นตอนช่วยเพิ่มความร่วมมือในการรักษาทางกายภาพบำบัด"
+                },
+                {
+                    minReg: 76, maxReg: 100, minUrg: 61, maxUrg: 100,
+                    phrase: "Acute muscle spasm detected; immediate ice application and rest are indicated.",
+                    translation: "พบการเกร็งตัวของกล้ามเนื้ออย่างรุนแรง ต้องประคบเย็นและหยุดพักทันที",
+                    idiom: "At short notice", idiomDesc: "กระทันหัน / ต้องดำเนินการทันที",
+                    collocation: "Acute spasm / Immediate application", collocDesc: "การเกร็งตัวฉุกเฉิน / การประคบรับมือทันที",
+                    patientState: "In Acute Pain", patientIcon: "frown",
+                    explanation: "เมื่อเกิดภาวะบาดเจ็บเฉียบพลันในการกายภาพ ต้องใช้ประโยคคำสั่งการรักษาที่กระชับและเป็นทางการเพื่อความปลอดภัยของผู้ป่วย"
+                }
+            ],
+            CP: [ // Clinical Psychology
+                {
+                    minReg: 0, maxReg: 50, minUrg: 0, maxUrg: 50,
+                    phrase: "It sounds like you're feeling overwhelmed; I'm here to listen whenever you're ready.",
+                    translation: "ดูเหมือนว่าคุณกำลังรู้สึกแบกรับอะไรไว้เยอะมาก หมอพร้อมรับฟังเมื่อคุณพร้อมนะครับ",
+                    idiom: "Feeling overwhelmed", idiomDesc: "รู้สึกท่วมท้น / ล้นจนรับไม่ไหว",
+                    collocation: "Active listening / Express feelings", collocDesc: "การฟังอย่างใส่ใจ / การแสดงความรู้สึก",
+                    patientState: "Emotional / Vulnerable", patientIcon: "heart-handshake",
+                    explanation: "ด้านจิตวิทยาคลินิก การลดระดับความเป็นทางการและใช้วลีที่แสดงความใส่ใจ (Empathy) เป็นหัวใจสำคัญในการสร้างความไว้วางใจ (Rapport)"
+                },
+                {
+                    minReg: 51, maxReg: 80, minUrg: 0, maxUrg: 60,
+                    phrase: "We will explore cognitive reframing techniques to help manage your anxious thoughts.",
+                    translation: "เราจะลองใช้เทคนิคการปรับความคิดเพื่อช่วยจัดการกับความวิตกกังวลของคุณครับ",
+                    idiom: "Get a grip on", idiomDesc: "เริ่มคุมสติหรือจัดการสิ่งต่างๆ ได้",
+                    collocation: "Cognitive reframing / Anxious thoughts", collocDesc: "การปรับโครงสร้างความคิด / ความคิดวิตกกังวล",
+                    patientState: "Thoughtful", patientIcon: "brain",
+                    explanation: "การอธิบายเครื่องมือบำบัดทางจิตวิทยา ต้องผสมผสานคำศัพท์เฉพาะทางกับการให้ความหวังผู้ป่วยอย่างเป็นมิตร"
+                },
+                {
+                    minReg: 81, maxReg: 100, minUrg: 61, maxUrg: 100,
+                    phrase: "Patient is experiencing panic distress; de-escalation protocol initiated.",
+                    translation: "ผู้ป่วยมีภาวะตระหนกตกใจอย่างรุนแรง เริ่มดำเนินมาตรการการผ่อนคลายอารมณ์ฉุกเฉิน",
+                    idiom: "At breaking point", idiomDesc: "ถึงจุดสิ้นสุดของความอดทน / วิกฤตสติแตก",
+                    collocation: "De-escalation protocol / Panic distress", collocDesc: "มาตรการลดความตึงเครียด / ภาวะตื่นตระหนก",
+                    patientState: "Severe Distress", patientIcon: "alert-triangle",
+                    explanation: "เมื่อผู้ป่วยเผชิญภาวะวิกฤตทางจิตวิทยา การบันทึกและใช้วลีประเมินฉุกเฉินต้องสั้น รัดกุม และถูกต้องตามเกณฑ์ประเมินจิตเวช"
+                }
+            ]
+        };
+
+        // Mission Challenges Pool
+        const missions = [
+            {
+                dept: "PT",
+                title: "ผู้ป่วยสูงอายุมีอาการปวดหลังเรื้อรังและกังวลใจ",
+                scenario: "นิสิตกายภาพบำบัดต้องเลือกใช้คำศัพท์สื่อสารที่สร้างอุ่นใจ (Empathy สูง) และใช้ระดับทางการระดับปานกลาง ไม่ตื่นตระหนก",
+                target: { minReg: 30, maxReg: 55, minConf: 70, maxConf: 100, minUrg: 0, maxUrg: 40 },
+                hint: "ปรับ Register อยู่ที่ประมาณ 35-50%, Confidence > 70%, Urgency < 40%"
+            },
+            {
+                dept: "MT",
+                title: "รายงานผลเลือดเคสวิกฤต (Critical Lab Value) แก่ทีมแพทย์",
+                scenario: "นิสิตเทคนิคการแพทย์ต้องรายงานผล Potassium สูงวิกฤต ต้องใช้ภาษาทางการระดับสูง รวดเร็ว และกระชับในสภาวะฉุกเฉิน",
+                target: { minReg: 75, maxReg: 100, minConf: 70, maxConf: 100, minUrg: 70, maxUrg: 100 },
+                hint: "ปรับ Register > 75%, Confidence > 70%, Urgency > 70%"
+            },
+            {
+                dept: "CP",
+                title: "รับมือผู้ป่วยที่มีภาวะวิตกกังวลสูงในห้องให้คำปรึกษา",
+                scenario: "นิสิตจิตวิทยาคลินิกต้องใช้ภาษาที่เป็นกันเอง ไม่กดดันผู้ป่วย (Low-Mid Register) พร้อมแสดงความเห็นอกเห็นใจระดับสูงสุด",
+                target: { minReg: 10, maxReg: 45, minConf: 75, maxConf: 100, minUrg: 0, maxUrg: 45 },
+                hint: "ปรับ Register < 45%, Confidence > 75%, Urgency < 45%"
+            }
+        ];
+
+        // Current App State
+        let currentDept = "MT";
+        let registerVal = 50;
+        let confidenceVal = 50;
+        let urgencyVal = 30;
+        let currentMission = null;
+
+        // DOM Elements
+        const sliderRegister = document.getElementById('slider-register');
+        const sliderConfidence = document.getElementById('slider-confidence');
+        const sliderUrgency = document.getElementById('slider-urgency');
+        
+        const valRegister = document.getElementById('val-register');
+        const valConfidence = document.getElementById('val-confidence');
+        const valUrgency = document.getElementById('val-urgency');
+
+        const radarRegVal = document.getElementById('radar-reg-val');
+        const radarConfVal = document.getElementById('radar-conf-val');
+        const radarUrgVal = document.getElementById('radar-urg-val');
+
+        const dialogueOutput = document.getElementById('dialogue-output');
+        const dialogueTranslation = document.getElementById('dialogue-translation');
+        const patientName = document.getElementById('patient-name');
+        const patientStateTag = document.getElementById('patient-state-tag');
+        const patientFeelingDesc = document.getElementById('patient-feeling-desc');
+        const patientAvatarBox = document.getElementById('patient-avatar-box');
+        const deptTagBadge = document.getElementById('dept-tag-badge');
+
+        const scoreDisplay = document.getElementById('score-display');
+        const scoreW1Val = document.getElementById('score-w1-val');
+        const scoreW2Val = document.getElementById('score-w2-val');
+        const scoreW3Val = document.getElementById('score-w3-val');
+        const formulaExplanationText = document.getElementById('formula-explanation-text');
+
+        const activeIdiomTitle = document.getElementById('active-idiom-title');
+        const activeIdiomDesc = document.getElementById('active-idiom-desc');
+        const activeCollocationTitle = document.getElementById('active-collocation-title');
+        const activeCollocationDesc = document.getElementById('active-collocation-desc');
+        const activePhraseTitle = document.getElementById('active-phrase-title');
+        const activePhraseDesc = document.getElementById('active-phrase-desc');
+
+        // Modal Elements
+        const missionModal = document.getElementById('mission-modal');
+        const missionTriggerBtn = document.getElementById('mission-trigger-btn');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const randomizeMissionBtn = document.getElementById('randomize-mission-btn');
+        const checkMissionBtn = document.getElementById('check-mission-btn');
+        const missionResultBanner = document.getElementById('mission-result-banner');
+
+        // ==========================================
+        // RADAR CANVAS RENDERING ENGINE
+        // ==========================================
+        const canvas = document.getElementById('radarCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function drawRadar() {
+            const width = canvas.width;
+            const height = canvas.height;
+            const centerX = width / 2;
+            const centerY = height / 2 + 10;
+            const radius = 70;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw Background Radar Rings
+            ctx.strokeStyle = '#334155';
+            ctx.lineWidth = 1;
+            for (let r = 1; r <= 3; r++) {
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, (radius / 3) * r, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+
+            // Radar Axes Points (3 Dimensions: Register, Confidence, Urgency)
+            // Angles: -90deg (top), 30deg (bottom right), 150deg (bottom left)
+            const angleReg = -Math.PI / 2;
+            const angleConf = Math.PI / 6;
+            const angleUrg = (5 * Math.PI) / 6;
+
+            // Draw Axis Lines
+            ctx.beginPath();
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(centerX + radius * Math.cos(angleReg), centerY + radius * Math.sin(angleReg));
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(centerX + radius * Math.cos(angleConf), centerY + radius * Math.sin(angleConf));
+            ctx.moveTo(centerX, centerY);
+            ctx.lineTo(centerX + radius * Math.cos(angleUrg), centerY + radius * Math.sin(angleUrg));
+            ctx.strokeStyle = '#475569';
+            ctx.stroke();
+
+            // Axis Labels
+            ctx.font = '10px Inter, sans-serif';
+            ctx.fillStyle = '#818cf8'; // Indigo for Register
+            ctx.fillText('REGISTER', centerX - 22, centerY - radius - 8);
+
+            ctx.fillStyle = '#34d399'; // Emerald for Confidence
+            ctx.fillText('CONFIDENCE', centerX + radius * Math.cos(angleConf) + 5, centerY + radius * Math.sin(angleConf) + 10);
+
+            ctx.fillStyle = '#f43f5e'; // Rose for Urgency
+            ctx.fillText('URGENCY', centerX + radius * Math.cos(angleUrg) - 45, centerY + radius * Math.sin(angleUrg) + 10);
+
+            // Compute Polygon Vertices Based on Values (0 to 100 scale)
+            const pRegX = centerX + (radius * (registerVal / 100)) * Math.cos(angleReg);
+            const pRegY = centerY + (radius * (registerVal / 100)) * Math.sin(angleReg);
+
+            const pConfX = centerX + (radius * (confidenceVal / 100)) * Math.cos(angleConf);
+            const pConfY = centerY + (radius * (confidenceVal / 100)) * Math.sin(angleConf);
+
+            const pUrgX = centerX + (radius * (urgencyVal / 100)) * Math.cos(angleUrg);
+            const pUrgY = centerY + (radius * (urgencyVal / 100)) * Math.sin(angleUrg);
+
+            // Draw Filled State Shape
+            ctx.beginPath();
+            ctx.moveTo(pRegX, pRegY);
+            ctx.lineTo(pConfX, pConfY);
+            ctx.lineTo(pUrgX, pUrgY);
+            ctx.closePath();
+
+            ctx.fillStyle = 'rgba(20, 184, 166, 0.35)'; // Teal translucent fill
+            ctx.fill();
+            ctx.strokeStyle = '#14b8a6';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Draw Data Point Nodes
+            const points = [
+                { x: pRegX, y: pRegY, color: '#818cf8' },
+                { x: pConfX, y: pConfY, color: '#34d399' },
+                { x: pUrgX, y: pUrgY, color: '#f43f5e' }
+            ];
+
+            points.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.fill();
+                ctx.strokeStyle = '#ffffff';
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            });
+        }
+
+        // ==========================================
+        // SIMULATION UPDATE ENGINE
+        // ==========================================
+        function updateSimulation() {
+            // Update Slider Displays
+            valRegister.textContent = `${registerVal}%`;
+            valConfidence.textContent = `${confidenceVal}%`;
+            valUrgency.textContent = `${urgencyVal}%`;
+
+            radarRegVal.textContent = registerVal;
+            radarConfVal.textContent = confidenceVal;
+            radarUrgVal.textContent = urgencyVal;
+
+            // Fetch matching dataset for active department
+            const deptData = database[currentDept] || database.MT;
+            
+            // Find best matching entry based on rules
+            let matched = deptData.find(item => 
+                registerVal >= item.minReg && registerVal <= item.maxReg &&
+                urgencyVal >= item.minUrg && urgencyVal <= item.maxUrg
+            );
+
+            // Fallback match if parameters fall out of specific range
+            if (!matched) {
+                matched = deptData[0];
+            }
+
+            // Update Speech Output & Vocabulary Cards
+            dialogueOutput.textContent = `"${matched.phrase}"`;
+            dialogueTranslation.textContent = `"${matched.translation}"`;
+            
+            activeIdiomTitle.textContent = `"${matched.idiom}"`;
+            activeIdiomDesc.textContent = matched.idiomDesc;
+
+            activeCollocationTitle.textContent = `"${matched.collocation}"`;
+            activeCollocationDesc.textContent = matched.collocDesc;
+
+            activePhraseTitle.textContent = `"${matched.phrase.split(';')[0]}"`;
+            activePhraseDesc.textContent = matched.translation;
+
+            patientStateTag.textContent = matched.patientState;
+            patientFeelingDesc.textContent = `"${matched.explanation.substring(0, 45)}..."`;
+            formulaExplanationText.innerHTML = matched.explanation;
+
+            // Department Tag Text
+            const deptNames = { MT: 'MT Track (เทคนิคการแพทย์)', PT: 'PT Track (กายภาพบำบัด)', CP: 'CP Track (จิตวิทยาคลินิก)' };
+            deptTagBadge.textContent = deptNames[currentDept];
+
+            // Calculate Mathematical Score
+            // Formula: Score = (Register Appropriateness * 0.4) + (Confidence * 0.35) + (Urgency Alignment * 0.25)
+            const registerScore = 100 - Math.abs(registerVal - 60); // Ideal register around 60
+            const urgencyScore = 100 - Math.abs(urgencyVal - 40);
+            
+            const totalScore = ((registerScore * 0.4) + (confidenceVal * 0.35) + (urgencyScore * 0.25)).toFixed(1);
+            scoreDisplay.textContent = `${totalScore} / 100`;
+
+            // Draw Visual Radar
+            drawRadar();
+            
+            // Re-initialize Lucide Icons for dynamic tags
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+        }
+
+        // ==========================================
+        // EVENT LISTENERS
+        // ==========================================
+        sliderRegister.addEventListener('input', (e) => {
+            registerVal = parseInt(e.target.value);
+            updateSimulation();
+        });
+
+        sliderConfidence.addEventListener('input', (e) => {
+            confidenceVal = parseInt(e.target.value);
+            updateSimulation();
+        });
+
+        sliderUrgency.addEventListener('input', (e) => {
+            urgencyVal = parseInt(e.target.value);
+            updateSimulation();
+        });
+
+        // Department Selector Buttons
+        document.querySelectorAll('.dept-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.dept-btn').forEach(b => {
+                    b.classList.remove('bg-teal-50', 'border-teal-500', 'text-teal-800', 'shadow-sm');
+                    b.classList.add('border-slate-200', 'text-slate-600');
+                });
+
+                const targetBtn = e.currentTarget;
+                targetBtn.classList.add('bg-teal-50', 'border-teal-500', 'text-teal-800', 'shadow-sm');
+                targetBtn.classList.remove('border-slate-200', 'text-slate-600');
+
+                currentDept = targetBtn.getAttribute('data-dept');
+                updateSimulation();
+            });
+        });
+
+        // Reset Button
+        document.getElementById('reset-btn').addEventListener('click', () => {
+            registerVal = 50;
+            confidenceVal = 50;
+            urgencyVal = 30;
+            sliderRegister.value = 50;
+            sliderConfidence.value = 50;
+            sliderUrgency.value = 30;
+            updateSimulation();
+        });
+
+        // ==========================================
+        // CHALLENGE MISSION ENGINE
+        // ==========================================
+        function loadMission(mission) {
+            currentMission = mission;
+            document.getElementById('mission-title').textContent = `"${mission.title}"`;
+            document.getElementById('mission-scenario').textContent = mission.scenario;
+            document.getElementById('mission-dept-badge').textContent = `${mission.dept} Challenge`;
+            
+            document.getElementById('target-reg-text').textContent = `${mission.target.minReg}% - ${mission.target.maxReg}%`;
+            document.getElementById('target-conf-text').textContent = `≥ ${mission.target.minConf}%`;
+            document.getElementById('target-urg-text').textContent = `≤ ${mission.target.maxUrg}%`;
+
+            missionResultBanner.classList.add('hidden');
+        }
+
+        missionTriggerBtn.addEventListener('click', () => {
+            const randomMission = missions[Math.floor(Math.random() * missions.length)];
+            loadMission(randomMission);
+            missionModal.classList.remove('hidden');
+        });
+
+        closeModalBtn.addEventListener('click', () => {
+            missionModal.classList.add('hidden');
+        });
+
+        randomizeMissionBtn.addEventListener('click', () => {
+            const availableMissions = missions.filter(m => m !== currentMission);
+            const nextMission = availableMissions[Math.floor(Math.random() * availableMissions.length)] || missions[0];
+            loadMission(nextMission);
+        });
+
+        checkMissionBtn.addEventListener('click', () => {
+            if (!currentMission) return;
+
+            const t = currentMission.target;
+            const regPass = registerVal >= t.minReg && registerVal <= t.maxReg;
+            const confPass = confidenceVal >= t.minConf && confidenceVal <= t.maxConf;
+            const urgPass = urgencyVal >= t.minUrg && urgencyVal <= t.maxUrg;
+
+            missionResultBanner.classList.remove('hidden');
+
+            if (regPass && confPass && urgPass) {
+                missionResultBanner.className = "p-3 rounded-xl text-xs font-medium border bg-emerald-50 text-emerald-800 border-emerald-300 flex items-start space-x-2";
+                document.getElementById('result-text').innerHTML = `<strong>ยอดเยี่ยม! บรรลุเป้าหมายแล้ว 🎉</strong><br>ค่าตัวแปรที่คุณตั้งสอดคล้องกับบริบทการสื่อสารทางการแพทย์อย่างถูกต้อง`;
+            } else {
+                missionResultBanner.className = "p-3 rounded-xl text-xs font-medium border bg-rose-50 text-rose-800 border-rose-300 flex items-start space-x-2";
+                document.getElementById('result-text').innerHTML = `<strong>ยังไม่ตรงเป้าหมาย!</strong><br>คำแนะนำ: ${currentMission.hint}`;
+            }
+        });
+
+        // Initialize Application
+        window.addEventListener('DOMContentLoaded', () => {
+            if (window.lucide) {
+                lucide.createIcons();
+            }
+            updateSimulation();
+        });
+    </script>
+</body>
+</html>
